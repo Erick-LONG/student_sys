@@ -25,7 +25,7 @@ class StudentTestCase(TestCase):
             phone='33333',
             status=1
         )
-        self.assertEqual(student.get_sex_display, '男', '性别字段与展示不一致')
+        self.assertEqual(student.get_sex_display(),'男','必须一致哈')
 
     def test_filter(self):
         Student.objects.create(
@@ -37,14 +37,14 @@ class StudentTestCase(TestCase):
             phone='33333777777',
             status=1
         )
-        name = 'longlong'
+        name = 'longfff'
         students = Student.objects.filter(name=name)
-        self.assertEqual(students.count(), 1, '应该只存在一个名称为{}的记录'.format(name))
+        self.assertEqual(students.count(), 1,'heihh')
 
     def test_get_index(self):
         client = Client()
         response = client.get('/')
-        self.assertEqual(response.status_code, 200, 'status must be 200!')
+        self.assertEqual(response.status_code, 200)
 
     def test_post_student(self):
         client = Client()
@@ -58,7 +58,8 @@ class StudentTestCase(TestCase):
             status=1
         )
         response = client.post('/', data)
-        self.assertEqual(response.status_code, 302, 'status must be 302')
+        print(response.status_code)
+        self.assertEqual(response.status_code,302, 'status must be 302')
 
         response = client.get('/')
-        self.assertEqual(b'test_for_post' in response.content, 'response content must contain test_for_post')
+        self.assertTrue(b'test_for_post' in response.content, 'response content must contain test_for_post')
